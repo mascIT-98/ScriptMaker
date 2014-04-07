@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Script Maker</string>
+    <string name="tap">Click to apply!</string>
+    <string name="value_hint">Insert a value. Example: 5</string>
+    <string name="path_hint">Insert a path. \nExample: /d/cpuidle/deepest_state</string>
+    <string name="action_settings">Info</string>
+    <string name="remove">Delete script file.</string>
+
+</resources>
