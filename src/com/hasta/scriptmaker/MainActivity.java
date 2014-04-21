@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -23,7 +25,7 @@ public class MainActivity extends Activity {
 	private EditText path=null;
     private Button btn=null;
     
-
+    //Create view, set edittext and button on clicklistener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,7 +42,7 @@ public class MainActivity extends Activity {
             }
         });
 }
-	
+	//Inizialize inflater menu
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -59,6 +61,17 @@ public class MainActivity extends Activity {
 		    case R.id.info:
 		    	ShowToast("ScriptMaker 1.1");
 		        break;
+		    case R.id.guide:
+		    	new AlertDialog.Builder(this)
+		        .setTitle("How to use?")
+		        .setMessage("Insert a value to your echo script. For example you want to set the deepest sleep state to 4, so write into the first editText 4 and into the second the path that your deepest sleep level config file is located to. Simply, isn't it?")
+		        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int which) { 
+		                dialog.dismiss();
+		            }
+		         })
+		         .show();
+		        break;
 		    
 		    }
 		    return true;
@@ -68,6 +81,9 @@ public class MainActivity extends Activity {
         Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
     }
 	
+	/*Create a script into etc/init.d folder only if it isn't still there, else it will append the text, writing 
+	 to the next line without overriding.
+	*/
 	public void makescript(){
 		Utils.mountSystemRW();
     	File logFile = new File(Environment.getRootDirectory().toString(), "/etc/init.d/script");
@@ -88,19 +104,16 @@ public class MainActivity extends Activity {
             text.append('\n');
             
         }
-        
-        BufferedWriter output = new BufferedWriter(new FileWriter(logFile, true));
+        BufferedWriter output = new BufferedWriter(new FileWriter(logFile, true)); //true means that it appends the text
         if(file.exists()){
-        	Utils.mRunAsSU("echo "+value.getText().toString()+" > "+ path.getText().toString());
-            ShowToast("Value applied.");                         
-            output.write("\n"+"echo "+value.getText().toString()+" > "+path.getText().toString());
-            output.close();
-            Utils.mSetFilePerm("/system/etc/init.d/script", 777);
-            ShowToast("Script created successfully!");
-            br.close();
-        	}
-        
-        
+        	    	  Utils.mRunAsSU("echo "+value.getText().toString()+" > "+ path.getText().toString());
+        	            ShowToast("Value applied.");                         
+        	            output.write("\n"+"echo "+value.getText().toString()+" > "+path.getText().toString());
+        	            output.close();
+        	            Utils.mSetFilePerm("/system/etc/init.d/script", 777);
+        	            ShowToast("Script created successfully!");
+        	            br.close();
+        	}      
         else {
         	ShowToast("Invalid path.");
         

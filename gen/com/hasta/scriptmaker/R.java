@@ -26,6 +26,7 @@ public final class R {
     }
     public static final class id {
         public static final int delete=0x7f080003;
+        public static final int guide=0x7f080005;
         public static final int info=0x7f080004;
         public static final int path=0x7f080001;
         public static final int send=0x7f080002;
@@ -40,6 +41,7 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050004;
         public static final int app_name=0x7f050000;
+        public static final int guide=0x7f050006;
         public static final int path_hint=0x7f050003;
         public static final int remove=0x7f050005;
         public static final int tap=0x7f050001;
