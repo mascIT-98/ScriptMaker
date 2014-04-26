@@ -86,30 +86,32 @@ public class MainActivity extends Activity {
 	*/
 	public void makescript(){
 		Utils.mountSystemRW();
-    	File logFile = new File(Environment.getRootDirectory().toString(), "/etc/init.d/script");
+		Utils.mRunAsSU("cp -f "+"/system/etc/init.d/script"+" "+Environment.getExternalStorageDirectory()+"/script", "rm "+"/system/etc/init.d/script");
+    	File f = new File(Environment.getExternalStorageDirectory().toString(), "script");
     	File file = new File(path.getText().toString());
         try {
-        if(!logFile.exists()) {
-             logFile.createNewFile();
-             BufferedWriter start = new BufferedWriter(new FileWriter(logFile, true));
+        if(!f.exists()) {
+             f.createNewFile();
+             BufferedWriter start = new BufferedWriter(new FileWriter(f, true));
              start.write("#!system/bin/sh");
              start.close();
         }
 
         StringBuilder text = new StringBuilder(); // build the string
         String line;
-        BufferedReader br = new BufferedReader(new FileReader(logFile)); //Buffered reader used to read the file
+        BufferedReader br = new BufferedReader(new FileReader(f)); //Buffered reader used to read the file
         while ((line = br.readLine()) != null) { // if not empty continue
             text.append(line);
             text.append('\n');
             
         }
-        BufferedWriter output = new BufferedWriter(new FileWriter(logFile, true)); //true means that it appends the text
+        BufferedWriter output = new BufferedWriter(new FileWriter(f, true)); //true means that it appends the text
         if(file.exists()){
         	    	  Utils.mRunAsSU("echo "+value.getText().toString()+" > "+ path.getText().toString());
         	            ShowToast("Value applied.");                         
         	            output.write("\n"+"echo "+value.getText().toString()+" > "+path.getText().toString());
         	            output.close();
+        	            Utils.mRunAsSU("cp -f "+Environment.getExternalStorageDirectory()+"/script"+" /system/etc/init.d/script", "rm "+Environment.getExternalStorageDirectory()+"/script");
         	            Utils.mSetFilePerm("/system/etc/init.d/script", 777);
         	            ShowToast("Script created successfully!");
         	            br.close();
