@@ -1,15 +1,22 @@
 package com.hasta.scriptmaker;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 class  Utils {
 	
+	private static final String SCRIPT_PATH ="/system/etc/init.d/script";
 	
     public static String SU_wop(String cmds) {
 //     FLAG:0x2
@@ -48,6 +55,56 @@ class  Utils {
         mRunAsSU("mount -o rw,remount /system");
     }
     
+    public static void readFile(Context c){
+    	BufferedReader  buffered_reader=null;
+        try 
+        {
+            buffered_reader = new BufferedReader(new FileReader(SCRIPT_PATH));
+            String line;
+            StringBuffer contents = new StringBuffer();
+
+            while ((line = buffered_reader.readLine()) != null) 
+            {
+            	contents.append(line)
+                .append(System.getProperty(
+                    "line.separator"));
+            	
+            	
+            }           
+            new AlertDialog.Builder(c)
+	        .setTitle("Checking script content...")
+	        .setMessage(contents)
+	        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) { 
+	                dialog.dismiss();
+	            }
+	         })
+	         .show();
+        } 
+            
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+        finally 
+        {
+            try 
+            {
+                if (buffered_reader != null)
+                    buffered_reader.close();
+            } 
+            catch (IOException ex) 
+            {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    
+    
+    public static void showToast(Context context, String text) {
+	    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+	}
     
     public static void mSetFilePerm(String path,int mode) {
 		mRunAsSU("chmod "+mode+" "+path);
@@ -69,6 +126,8 @@ class  Utils {
 		}
     }
 }
+
+
 
 class SU extends AsyncTask<String, Void, Void> {
     @Override

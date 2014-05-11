@@ -8,5 +8,37 @@
     <string name="action_settings">Info</string>
     <string name="remove">Delete script file.</string>
     <string name="guide">How to use?</string>
+    <string name="check_script">Check script file content</string>
+    
+    <string-array name="countries_array">
+        <item>/sys/kernel/abb-charger/charger_curr</item>
+        <item>/sys/kernel/fsync/mode</item>
+        <item>/sys/kernel/mali/mali_auto_boost</item>
+        <item>/sys/kernel/mali/mali_boost_delay</item>
+        <item>/sys/kernel/mali/mali_boost_high</item>
+        <item>/sys/kernel/mali/mali_gpu_clock</item>
+        <item>/sys/kernel/mali/mm/uksm/run</item>
+        <item>/sys/module/mali/parameters/mali_debug_level</item>
+        <item>/sys/module/mali/parameters/mali_l2_max_reads</item>
+        <item>/sys/module/lowmemorykiller/parameters/adj</item>
+        <item>/sys/module/lowmemorykiller/parameters/debug_level</item>
+        <item>/sys/module/lowmemorykiller/parameters/minfree</item>
+        <item>/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor</item>
+        <item>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</item>
+        <item>/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq</item>
+        <item>/proc/sys/net/ipv4/tcp_congestion_control</item>
+        <item>/proc/sys/vm/dirty_background_ratio</item>
+        <item>/proc/sys/vm/dirty_bytes</item>
+        <item>/proc/sys/vm/dirty_expire_centisecs</item>
+        <item>/proc/sys/vm/dirty_ratio</item>
+        <item>/proc/sys/vm/dirty_writeback_centisecs</item>
+        <item>/proc/sys/vm/drop_caches</item>
+        <item>/proc/sys/vm/laptop_mode</item>
+        <item>/proc/sys/vm/min_free_kbytes</item>
+        <item>/proc/sys/vm/page-cluster</item>
+        <item>/proc/sys/vm/panic_on_oom</item>
+        <item>/proc/sys/vm/swappiness</item>
+        <item>/proc/sys/vm/vfs_cache_pressure</item>
+    </string-array>
 
 </resources>
