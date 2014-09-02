@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	private EditText value;
 	private AutoCompleteTextView path;
     private Button btn;
-    private static final String SCRIPT_PATH =Environment.getExternalStorageDirectory()+"/script";
+    private static final String SCRIPT_PATH =Environment.getRootDirectory()+"/etc/init.d/script";
     
     //Create view, set edittext and button on clicklistener
 	@Override
@@ -98,14 +98,14 @@ public class MainActivity extends Activity {
 	*/
 	public void makeScript(){
 		Utils.mountSystemRW();
-		Utils.mRunAsSU("cp -f "+"/system/etc/init.d/script"+" "+Environment.getExternalStorageDirectory()+"/script", "rm "+"/system/etc/init.d/script");
-         File f = new File(Environment.getExternalStorageDirectory().toString(), "script");
+		
+         File f = new File(Environment.getRootDirectory()+"/etc/init.d", "script");
          File file = new File(path.getText().toString());
         try {
         if(!f.exists()) {
              f.createNewFile();
              BufferedWriter start = new BufferedWriter(new FileWriter(f, true));
-             start.write("#!system/bin/sh");
+             start.write("#!/system/bin/sh");
              start.close();
         }
 
@@ -136,14 +136,11 @@ public class MainActivity extends Activity {
             }
             if (c>0){
                Utils.showToast(this, "Already written, check your script file before proceed."); 
-               Utils.mRunAsSU("cp -f "+Environment.getExternalStorageDirectory()+"/script"+" "+"/system/etc/init.d/script", "rm "+Environment.getExternalStorageDirectory()+"/script");
-               Utils.mSetFilePerm("/system/etc/init.d/script", 777);
             }
             else{
             	
             	BufferedWriter output = new BufferedWriter(new FileWriter(f, true)); //true means that it appends the text
                 if(file.exists()){
-                	Utils.mRunAsSU("cp -f "+"/system/etc/init.d/script"+" "+Environment.getExternalStorageDirectory()+"/script", "rm "+"/system/etc/init.d/script");
                 	    	  Utils.mRunAsSU("echo "+value.getText().toString()+" > "+ path.getText().toString());
                 	            Utils.showToast(this, "Value applied.");                         
                 	            output.write("\n"+"echo "+value.getText().toString()+" > "+path.getText().toString());
@@ -151,8 +148,7 @@ public class MainActivity extends Activity {
                 	            
                 	            Utils.showToast(this, "Script created successfully!");
                 	            br.close();
-                	            Utils.mRunAsSU("cp -f "+Environment.getExternalStorageDirectory()+"/script"+" "+"/system/etc/init.d/script", "rm "+Environment.getExternalStorageDirectory()+"/script");
-                	            Utils.mSetFilePerm("/system/etc/init.d/script", 777);
+                	        
                 	}      
                 else {
                 	Utils.showToast(this,"Invalid path.");
